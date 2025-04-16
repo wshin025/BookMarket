@@ -27,7 +27,7 @@ public class BookRepositoryImpl implements BookRepository {
         book1.setCondition("신규도서");
 
         Book book2 = new Book();
-        book2.setBookId("isbn0003");
+        book2.setBookId("isbn0002");
         book2.setName("혼자 공부하는 머신러닝 딥러닝");
         book2.setUnitPrice(BigDecimal.valueOf(25000));
         book2.setAuthor("박해선");
@@ -79,5 +79,17 @@ public class BookRepositoryImpl implements BookRepository {
             throw new IllegalArgumentException("도서번호가"+ bookId + "인 해당 도서를 찾을 수 없습니다.");
         }
         return bookinfo;
+    }
+
+    @Override
+    public List<Book> getBookListByCategory(String category) {
+        List<Book> booksByCategory = new ArrayList<Book>();
+        for (int i = 0 ; i < listofBooks.size() ; i++) {
+            Book book = listofBooks.get(i);
+            if (book.getCategory()!=null &&book.getCategory().equals(category)) {
+                booksByCategory.add(book);
+            }
+        }
+        return booksByCategory;
     }
 }
