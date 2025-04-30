@@ -10,15 +10,13 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
-public class BookServiceImpl implements BookService{
+public class BookServiceImpl implements BookService {
 
     @Autowired
-    private BookRepository bookRepository ;
-    @Autowired
-    private BookService bookService;
+    private BookRepository bookRepository;
 
     @Override
-    public List<Book> getAllBookList(){
+    public List<Book> getAllBookList() {
         return bookRepository.getAllBookList();
     }
 
@@ -27,12 +25,11 @@ public class BookServiceImpl implements BookService{
         Book book = bookRepository.getBookById(bookId);
         return book;
     }
+
     @Override
-    public List<Book> getBookListByCategory(String category){
+    public List<Book> getBookListByCategory(String category) {
         List<Book> booksByCategory = bookRepository.getBookListByCategory(category);
-
         return booksByCategory;
-
     }
 
     @Override
