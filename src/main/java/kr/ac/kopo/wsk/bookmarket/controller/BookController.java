@@ -96,10 +96,10 @@ public class BookController {
     }
 
     @GetMapping("/download")
-    public void downloadBookImage(@RequestParam("file") String paramkey, HttpServletResponse response) throws IOException {
-        File imageFile = new File(fileDir + paramkey);
+    public void downloadBookImage(@RequestParam("file") String paramKey, HttpServletResponse response) throws IOException {
+        File imageFile = new File(fileDir + paramKey);
         response.setContentType("application/download");
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + paramkey + "\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + paramKey + "\"");
         response.setContentLength((int) imageFile.length());
         OutputStream os = response.getOutputStream();
         FileInputStream fis = new FileInputStream(imageFile);
