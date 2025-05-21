@@ -1,6 +1,7 @@
 package kr.ac.kopo.wsk.bookmarket.domain;
 
 import jakarta.validation.constraints.*;
+import kr.ac.kopo.wsk.bookmarket.validator.BookId;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,13 +12,14 @@ import java.math.BigDecimal;
 //@Setter
 //@NoArgsConstructor
 public class Book {
-    @Pattern(regexp = "isbn[0-9]+")
+    @BookId
+    @Pattern(regexp = "isbn[0-9]+", message = "{Pattern.book.bookId}")
     private String bookId; //도서번호
-    @Size(min = 4, max = 50)
+    @Size(min = 4, max = 50, message = "{Size.book.name}")
     private String name; //도서명
-    @Min(0)
-    @Digits(integer = 8, fraction = 2)
-    @NotNull
+    @Min(value = 0, message = "{Min.book.unitPrice}")
+    @Digits(integer = 8, fraction = 2, message = "{Digits.book.unitPrice}")
+    @NotNull ( message = "{NotNull.book.unitPrice}")
     private BigDecimal unitPrice; //단가
     private String author; //저자
     private String description; //도서설명
