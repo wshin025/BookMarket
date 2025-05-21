@@ -19,7 +19,7 @@ public class Book {
     private String name; //도서명
     @Min(value = 0, message = "{Min.book.unitPrice}")
     @Digits(integer = 8, fraction = 2, message = "{Digits.book.unitPrice}")
-    @NotNull ( message = "{NotNull.book.unitPrice}")
+    @NotNull(message = "{NotNull.book.unitPrice}")
     private BigDecimal unitPrice; //단가
     private String author; //저자
     private String description; //도서설명
@@ -29,5 +29,6 @@ public class Book {
     private String releaseDate; //출판일
     private String condition; //신규도서 or 중고도서 or 전자책
     private String fileName; //도서 이미지 파일
-    private MultipartFile bookImage; //업로드된 도서 이미지 파일
+
+
 }

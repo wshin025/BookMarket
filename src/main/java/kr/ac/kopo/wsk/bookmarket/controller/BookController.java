@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import kr.ac.kopo.wsk.bookmarket.domain.Book;
 import kr.ac.kopo.wsk.bookmarket.service.BookService;
+import kr.ac.kopo.wsk.bookmarket.validator.BookValidator;
 import kr.ac.kopo.wsk.bookmarket.validator.UnitsInStockValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,13 +31,13 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @Value("${C:/upload/}")
+    @Value("${file.uploadDir}")
     String fileDir;
-    @Autowired
-    private
 
+    //    @Autowired
+//    private UnitsInStockValidator unitsInStockValidator;
     @Autowired
-    private UnitsInStockValidator unitsInStockValidator;
+    private BookValidator bookValidator;
 
     @GetMapping
     public String requestBookList(Model model) {
@@ -62,14 +63,14 @@ public class BookController {
     }
 
     @GetMapping("/{category}")
-    public String requestBooksByCategory(@PathVariable("category")String category, Model model) {
+    public String requestBooksByCategory(@PathVariable("category") String category, Model model) {
         List<Book> booksByCategory = bookService.getBookListByCategory(category);
         model.addAttribute("bookList", booksByCategory);
         return "books";
     }
 
     @GetMapping("/filter/{bookFilter}")
-    public String requestBooksByFilter(@MatrixVariable(pathVar = "bookFilter")Map<String, List<String>> bookFilter, Model model) {
+    public String requestBooksByFilter(@MatrixVariable(pathVar = "bookFilter") Map<String, List<String>> bookFilter, Model model) {
         Set<Book> booksByFilter = bookService.getBookListByFilter(bookFilter);
         model.addAttribute("bookList", booksByFilter);
         return "books";
@@ -89,7 +90,7 @@ public class BookController {
         MultipartFile bookImage = book.getBookImage();
         String saveName = bookImage.getOriginalFilename();
         File saveFile = new File(fileDir + saveName);
-        if(bookImage != null && !bookImage.isEmpty()) {
+        if (bookImage != null && !bookImage.isEmpty()) {
             try {
                 bookImage.transferTo(saveFile);
             } catch (IOException e) {
@@ -122,7 +123,8 @@ public class BookController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
+//        binder.setValidator(unitsInStockValidator);
         binder.setValidator(bookValidator);
-        binder.setAllowedFields("bookId", "name", "unitPrice","author", "description", "publisher", "category", "unitsInStock", "releaseDate", "condition", "bookImage");
+        binder.setAllowedFields("bookId", "name", "unitPrice", "author", "description", "publisher", "category", "unitsInStock", "releaseDate", "condition", "bookImage");
     }
 }
