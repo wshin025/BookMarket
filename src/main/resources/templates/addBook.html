@@ -31,8 +31,12 @@
         <p class="col-md-8 fs-4">BookMarket</p>
       </div>
     </div>
-
     <div class="row align-items-md-stretch">
+      <div class="text-end" style="padding-right: 30px;">
+        <form action="/BookMarket/logout" method="post">
+          <input type="submit" class="btn btn-sm btn-success" value="signout">
+        </form>
+      </div>
       <form action="/BookMarket/books/add" method="post" enctype="multipart/form-data" th:object="${book}">
         <legend th:text="${addTitle}"></legend>
         <div class="mb-3 row">
@@ -91,8 +95,8 @@
           <div class="col-sm-3">
             <input type="text" name="unitsInStock" class="form-control" th:field="*{unitsInStock}"/>
           </div>
-          <div class = "col-sm-6">
-              <p class = "text-danger" th:errors="*{unitsInStock}" />
+          <div class="col-sm-6">
+            <p class="text-danger" th:errors="*{unitsInStock}"/>
           </div>
         </div>
         <div class="mb-3 row">

@@ -63,14 +63,14 @@ public class BookController {
     }
 
     @GetMapping("/{category}")
-    public String requestBooksByCategory(@PathVariable("category") String category, Model model) {
+    public String requestBooksByCategory(@PathVariable("category")String category, Model model) {
         List<Book> booksByCategory = bookService.getBookListByCategory(category);
         model.addAttribute("bookList", booksByCategory);
         return "books";
     }
 
     @GetMapping("/filter/{bookFilter}")
-    public String requestBooksByFilter(@MatrixVariable(pathVar = "bookFilter") Map<String, List<String>> bookFilter, Model model) {
+    public String requestBooksByFilter(@MatrixVariable(pathVar = "bookFilter")Map<String, List<String>> bookFilter, Model model) {
         Set<Book> booksByFilter = bookService.getBookListByFilter(bookFilter);
         model.addAttribute("bookList", booksByFilter);
         return "books";
@@ -87,10 +87,12 @@ public class BookController {
         if (bindingResult.hasErrors()) {
             return "addBook";
         }
+
+
         MultipartFile bookImage = book.getBookImage();
         String saveName = bookImage.getOriginalFilename();
         File saveFile = new File(fileDir + saveName);
-        if (bookImage != null && !bookImage.isEmpty()) {
+        if(bookImage != null && !bookImage.isEmpty()) {
             try {
                 bookImage.transferTo(saveFile);
             } catch (IOException e) {
@@ -125,6 +127,6 @@ public class BookController {
     public void initBinder(WebDataBinder binder) {
 //        binder.setValidator(unitsInStockValidator);
         binder.setValidator(bookValidator);
-        binder.setAllowedFields("bookId", "name", "unitPrice", "author", "description", "publisher", "category", "unitsInStock", "releaseDate", "condition", "bookImage");
+        binder.setAllowedFields("bookId", "name", "unitPrice","author", "description", "publisher", "category", "unitsInStock", "releaseDate", "condition", "bookImage");
     }
 }

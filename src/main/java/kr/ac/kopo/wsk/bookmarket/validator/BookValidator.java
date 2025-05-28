@@ -1,10 +1,11 @@
 package kr.ac.kopo.wsk.bookmarket.validator;
-import jakarta.validation.ConstraintViolation;
+
 import kr.ac.kopo.wsk.bookmarket.domain.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import jakarta.validation.ConstraintViolation;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,6 +25,7 @@ public class BookValidator implements Validator {
         this.springValidators = springValidators;
     }
 
+
     @Override
     public boolean supports(Class<?> clazz) {
         return Book.class.isAssignableFrom(clazz);
@@ -32,13 +34,13 @@ public class BookValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Set<ConstraintViolation<Object>> violations = beanValidator.validate(target);
-        for (ConstraintViolation<Object> violation : violations) {
+        for (ConstraintViolation<Object> violation : violations){
             String propertyPath = violation.getPropertyPath().toString();
             String message = violation.getMessage();
             errors.rejectValue(propertyPath, "", message);
         }
 
-        for (Validator validator : springValidators) {
+        for (Validator validator : springValidators){
             validator.validate(target, errors);
         }
     }
