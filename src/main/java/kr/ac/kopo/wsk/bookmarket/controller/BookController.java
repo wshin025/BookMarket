@@ -70,7 +70,7 @@ public class BookController {
         List<Book> booksByCategory = bookService.getBookListByCategory(category);
         model.addAttribute("bookList", booksByCategory);
         if(booksByCategory == null || booksByCategory.isEmpty()){
-            throw new CategoryException();
+            throw new CategoryException(category);
         }
         model.addAttribute("bookList", booksByCategory);
         return "books";
