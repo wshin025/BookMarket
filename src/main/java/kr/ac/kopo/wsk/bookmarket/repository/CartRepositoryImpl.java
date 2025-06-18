@@ -19,6 +19,7 @@ public class CartRepositoryImpl implements CartRepository {
         if(ListOfCarts.containsKey(cart.getCartId())){
         throw new IllegalArgumentException("Cart already exists");
         }
+        ListOfCarts.put(cart.getCartId(), cart);
         return null;
         }
 

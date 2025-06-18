@@ -1,5 +1,6 @@
 package kr.ac.kopo.wsk.bookmarket.domain;
 
+import kr.ac.kopo.wsk.bookmarket.validator.BookId;
 import lombok.Data;
 import lombok.ToString;
 
@@ -22,5 +23,9 @@ public class Cart {
     public Cart(String cartId){
         this();
         this.cartId = cartId;
+    }
+    public void addCartItem(CartItem item){
+        String bookId = item.getBook().getBookId();
+
     }
 }
