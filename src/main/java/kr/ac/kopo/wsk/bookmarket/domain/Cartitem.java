@@ -7,27 +7,28 @@ import java.math.BigDecimal;
 
 @Data
 @ToString
-public class Cartitem {
+public class CartItem {
     private Book book;
     private int quantity;
     private BigDecimal totalPrice;
 
-    public Cartitem(Book book) {
+    public CartItem(Book book) {
         this.book = book;
-        this.quantity = 1;
-        this.totalPrice = book.getUnitPrice();
+        quantity = 1;
+        totalPrice = book.getUnitPrice();
     }
+
     public void setBook(Book book) {
         this.book = book;
         updateTotalPrice();
     }
+
     public void setQuantity(int quantity) {
         this.quantity = quantity;
         updateTotalPrice();
     }
 
     public void updateTotalPrice() {
-        totalPrice = this.book.getUnitPrice().multiply(new BigDecimal(quantity));
+        totalPrice = book.getUnitPrice().multiply(new BigDecimal(quantity));
     }
-
 }
