@@ -1,6 +1,5 @@
 package kr.ac.kopo.wsk.bookmarket.service;
 
-
 import kr.ac.kopo.wsk.bookmarket.domain.Cart;
 import kr.ac.kopo.wsk.bookmarket.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public void update(String cartId, Cart cart) {
-        cartRepository.create(cartId, cart);
+        cartRepository.update(cartId, cart);
     }
 
     @Override

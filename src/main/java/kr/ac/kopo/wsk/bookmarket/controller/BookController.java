@@ -68,7 +68,6 @@ public class BookController {
     @GetMapping("/{category}")
     public String requestBooksByCategory(@PathVariable("category")String category, Model model) {
         List<Book> booksByCategory = bookService.getBookListByCategory(category);
-        model.addAttribute("bookList", booksByCategory);
         if(booksByCategory == null || booksByCategory.isEmpty()){
             throw new CategoryException(category);
         }
@@ -94,8 +93,6 @@ public class BookController {
         if (bindingResult.hasErrors()) {
             return "addBook";
         }
-
-
         MultipartFile bookImage = book.getBookImage();
         String saveName = bookImage.getOriginalFilename();
         File saveFile = new File(fileDir + saveName);
@@ -132,7 +129,6 @@ public class BookController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-//        binder.setValidator(unitsInStockValidator);
         binder.setValidator(bookValidator);
         binder.setAllowedFields("bookId", "name", "unitPrice","author", "description", "publisher", "category", "unitsInStock", "releaseDate", "condition", "bookImage");
     }

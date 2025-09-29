@@ -7,6 +7,8 @@ public interface CartRepository {
 
     Cart read(String cartId);
 
+    Cart create(String cartId, Cart cart);
+
     void update(String cartId, Cart cart);
     void delete(String cartId);//카트안에 전체 항목들을 삭제
 }

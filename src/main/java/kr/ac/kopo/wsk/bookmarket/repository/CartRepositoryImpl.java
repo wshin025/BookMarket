@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-public class CartRepositoryImpl implements CartRepository {
+public abstract class CartRepositoryImpl implements CartRepository {
     private Map<String, Cart> listOfCarts;
 
     public CartRepositoryImpl() {
@@ -15,7 +15,7 @@ public class CartRepositoryImpl implements CartRepository {
     }
 
     @Override
-    public Cart create(Cart cart) {
+    public Cart create(String cartId, Cart cart) {
         if(listOfCarts.containsKey(cart.getCartId())){
             throw new IllegalArgumentException("장바구니를 새로 생성할 수 없습니다. 현재 장바구니 ID("+cart.getCartId()+")가 이미 존재합니다.");
         }
