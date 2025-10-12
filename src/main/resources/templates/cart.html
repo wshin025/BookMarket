@@ -33,7 +33,8 @@
     </div>
     <div class="row align-items-md-stretch">
       <div class="col-md-12">
-        <p><a href="#" class="btn btn-success text-right" style="float:right">주문하기</a></p>
+
+        <a th:href="'/BookMarket/order/'${cartId}" class="btn btn-success text-right" style="float:right">주문하기</a>
       </div>
       <div style="padding-top: 50px">
         <table class="table table-hover">
@@ -47,21 +48,21 @@
           </tr>
           <div th:if="${cart != null}">
             <div th:each=" cart : ${cart.cartItems}">
-            <tr>
-              <td th:text="${cartItem.value.book.bookId} + ' - ' +${cartItem.value.book.name}"></td>
-              <td th:text="${cartItem.value.book.bookId} + ' - ' +${cartItem.value.book.name}"></td>
-              <td th:text="${cartItem.value.book.unitPrice}"></td>
-              <td th:text="${cartItem.value.book.quantity}"></td>
-              <td th:text="${cartItem.value.book.totalPrice}"></td>
-              <td></td>
-            </tr>
+              <tr>
+                <td th:text="${cartItem.value.book.bookId} + ' - ' +${cartItem.value.book.name}"></td>
+                <td th:text="${cartItem.value.book.bookId} + ' - ' +${cartItem.value.book.name}"></td>
+                <td th:text="${cartItem.value.book.unitPrice}"></td>
+                <td th:text="${cartItem.value.book.quantity}"></td>
+                <td th:text="${cartItem.value.book.totalPrice}"></td>
+                <td></td>
+              </tr>
             </div>
           </div>
 
         </table>
         <div class="text-end" style="padding-right: 30px">
-        <b>총액</b>
-        <span th:if="${cart != null}" >
+          <b>총액</b>
+          <span th:if="${cart != null}" >
           [[{$cart.grandTotal}]]
         </span>
         </div>

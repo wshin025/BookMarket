@@ -1,34 +1,13 @@
 package kr.ac.kopo.wsk.bookmarket.domain;
 
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
-import java.math.BigDecimal;
-
-@Data
-@ToString
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class CartItem {
     private Book book;
     private int quantity;
-    private BigDecimal totalPrice;
 
-    public CartItem(Book book) {
-        this.book = book;
-        quantity = 1;
-        totalPrice = book.getUnitPrice();
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-        updateTotalPrice();
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-        updateTotalPrice();
-    }
-
-    public void updateTotalPrice() {
-        totalPrice = book.getUnitPrice().multiply(new BigDecimal(quantity));
+    public int getTotalPrice() {
+        return (book == null || book.getUnitPrice() == null) ? 0 : book.getUnitPrice() * quantity;
     }
 }
