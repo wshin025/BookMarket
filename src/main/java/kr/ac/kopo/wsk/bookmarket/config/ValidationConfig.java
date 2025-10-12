@@ -1,20 +1,53 @@
 package kr.ac.kopo.wsk.bookmarket.config;
 
-import kr.ac.kopo.wsk.bookmarket.validator.BookValidator;
-import kr.ac.kopo.wsk.bookmarket.validator.UnitsInStockValidator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import kr.ac.kopo.wsk.bookmarket.domain.CartItem;
+import lombok.Data;
+import lombok.ToString;
 
-@Configuration
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
+@Data
+@ToString
 public class ValidationConfig {
-    @Autowired
-    UnitsInStockValidator unitsInStockValidator;
+    private String cartId;
+    private Map<String, CartItem> cartItems;
+    private BigDecimal grandTotal;
 
-    @Bean
-    public BookValidator bookValidator(){
-        BookValidator bookValidator = new BookValidator();
-        bookValidator.springValidators.add(unitsInStockValidator);
-        return  bookValidator;
+    public ValidationConfig() {
+        cartItems = new HashMap<String, CartItem>();
+        grandTotal = new BigDecimal(0);//BigDecimal.ZERO
+    }
+
+    public ValidationConfig(String cartId) {
+        this();
+        this.cartId = cartId;
+    }
+
+    public void addCartItem(CartItem item) {
+        String bookId = item.getBook().getBookId();
+
+        if(cartItems.containsKey(bookId)) {
+            CartItem cartItem = cartItems.get(bookId);
+            cartItem.setQuantity(cartItem.getQuantity()+item.getQuantity());
+            cartItems.put(bookId, cartItem);
+        } else {
+            cartItems.put(bookId, item);
+        }
+        updateGrandTotal();
+    }
+    //    전체 주문총액을 업데이트하는 메소드
+    public void updateGrandTotal() {
+        grandTotal = new BigDecimal(0);
+        for(CartItem cartItem : cartItems.values()) {
+            grandTotal = grandTotal.add(cartItem.getTotalPrice());
+        }
+    }
+
+    public void removeCartItem(CartItem item) {
+        String bookId = item.getBook().getBookId();
+        cartItems.remove(bookId);
+        updateGrandTotal();
     }
 }
