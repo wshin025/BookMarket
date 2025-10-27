@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>주문 고객 정보</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container py-4">
+    <header class="pb-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center text-decoration-none text-body">
+            <span class="fs-4 fw-bold">BookMarket</span>
+        </a>
+    </header>
+
+    <main>
+        <div class="bg-light p-5 rounded-3 mb-4">
+            <h1 class="display-6 fw-bold">주문 상세 정보</h1>
+            <p class="lead">주문 고객의 상세 정보를 입력하세요.</p>
+        </div>
+
+        <div class="container col-md-10 py-5" style="background: #fafafe">
+            <div class="row text-left">
+                <div class="col-md-6 py-3">
+                    <b>배송 주소</b>
+                    성명: [[${order.shipping.name}]] <br>
+                    우편번호:[[${order.shipping.address.zipcode}]] <br>
+                    주소: [[${order.shipping.address.addressName}]]  [[${order.shipping.address.detailName}]] ([[${order.shipping.address.country}]]) <br>
+                </div>
+                <div class="col-md-6 text-right py-3 ">
+                    <p><em>배송일:[[${order.shipping.date}]]</em></p>
+                </div>
+            </div>
+            <div class="row text-left">
+                <div class="col-md-6 py-2">
+                   <address>
+                       <b>청구 주소</b>
+                       성명: [[${order.customer.name}]] <br>
+                       우편번호:[[${order.customer.address.zipcode}]] <br>
+                       주소: [[${order.customer.address.addressName}]]  [[${order.shipping.address.detailName}]] ([[${order.shipping.address.country}]]) <br>
+                       모바일: [[${order.customer.phone}]] <br>
+                   </address>
+                </div>
+                <div class="col-md-6 text-right py-2 ">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>도서</th>
+                            <th>수량</th>
+                            <th class="text-center">가격</th>
+                            <th class="text-center">소계</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <div class="col-md-4" th:each="cartItem:${order.orderItems}">
+                                <tr>
+                                    <td>
+                                        <em th:each="book:${bookList}" th:if="${#strings.equals(book.bookId, cartItem.value.bookId)}">[[{$book.name}]]</em>
+                                    </td>
+                                    <td style="text-align: center">[[${cartItem.value.quantity}]]</td>
+                                    <td class="text-center"><span th:each="book:${bookList}" th:if="${#strings.equals(book.bookId, cartItem.value.bookId)}">[[{$book.name}]]></span></td>
+                                    <td class="text-center">[[${cartItem.value.totalPrice}]]원</td>
+                                </tr>
+                            </div>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="text-right"><h4><b>총액:</b></h4></td>
+                            <td class="text-right"><h4><b>총[[${order.grandTotal}]]</b></h4></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="container col-md-12 py-3">
+                    <a th:href="@{'/BookMarket/order/list'}" role="button" class="btn btn-secondary">주문목록</a>
+                    <a th:href="@{'/order/edit/' + ${order.orderId}}" class="btn btn-info" >수정</a>
+                    <a th:href="@{'/order/delete/' + ${order.orderId}}" class="btn btn-danger">삭제</a>
+                </div>
+                <div class="col-md-6 text-right py-3 ">
+                    <p><em>배송일:[[${order.shipping.date}]]</em></p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="pt-3 mt-4 border-top text-secondary">
+        &copy; 2025 BookMarket
+    </footer>
+</div>
+</body>
+</html>

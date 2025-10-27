@@ -1,58 +1,82 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>주문 목록(관리자 전용)</title>
-  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <meta charset="UTF-8">
+    <title>주문 목록(관리자 전용)</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
 <div class="container py-4">
-  <header class="pb-3 mb-4 border-bottom">
-    <a href="/" class="d-flex align-items-center text-decoration-none text-body">
-      <span class="fs-4 fw-bold">BookMarket</span>
-    </a>
-  </header>
+    <header class="pb-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center text-decoration-none text-body">
+            <span class="fs-4 fw-bold">BookMarket</span>
+        </a>
+    </header>
 
-  <main>
-    <div class="bg-light p-5 rounded-3 mb-4">
-      <h1 class="display-6 fw-bold">주문 목록</h1>
-      <p class="lead">주문 고객의 상세 정보를 입력하세요.</p>
+    <main>
+        <div class="bg-light p-5 rounded-3 mb-4">
+            <h1 class="display-6 fw-bold">주문 목록</h1>
+            <p class="lead">주문 고객의 상세 정보를 입력하세요.</p>
+        </div>
+
+        <div class="row align-items-md-stretch">
+            <div class="text-end" style="padding-right: 30px">
+                <form method="post" action="/BookMarket/logout">
+                    <button type="submit" class="btn btn-sm btn-success">Logout</button>
+                </form>
+            </div>
+
+            <div class="col-md-12">
+                <form name="clear Form" method="post">
+                    <input type="hidden" name="_method" value="delete">
+                    <a th:href="@{/order/deleteAll}" class="btn bg-danger">삭제하기</a>
+                </form>
+            </div>
+
+            <div style="padding-top: 50px">
+                <div class="text-end" style="padding-right: 30px">
+                    전체 주문수:[[${totalItems}]]
+                </div>
+
+                <table class="table table-hover">
+                    <tr>
+                        <th><a th:href="@{'order/page?pageNum=' + ${currentPage}+'&sortField=orderId&sortDir=' + ${reverseSortDir}}">주문Id</a></th>
+                        <th><a th:href="@{'order/page?pageNum=' + ${currentPage}+'&sortField=customer_id&sortDir=' + ${reverseSortDir}}">고객Id</a></th>
+                        <th><a th:href="@{'order/page?pageNum=' + ${currentPage}+'&sortField=shipping_id&sortDir=' + ${reverseSortDir}}">배송지</a></th>
+                        <th><a th:href="@{'order/page?pageNum=' + ${currentPage}+'&sortField=grandTotal&sortDir=' + ${reverseSortDir}}">총액</a></th>
+                        <th><a>비고</a></th>
+                    </tr>
+
+                    <form name="removeForm" id="removeForm" method="post">
+                        <input type="hidden" name="_method" value="delete">
+                    </form>
+
+                    <div th:each="order:${orderList}">
+                        <tr>
+                            <td th:text="${order.orderId}"></td>
+                            <td th:text="${order.customer.id}"></td>
+                            <td th:text="${order.shopping.address.addressName}"></td>
+                            <td th:text="${order.grandTotal}"></td>
+                            <td>
+                                <a th:href="@{'/order/view/' + ${order.orderId}}"><span class="badge text-bg-secondary" th:text="상세보기"></span></a>
+                                <a th:href="@{'/order/edit/' + ${order.orderId}}"><span class="badge text-bg-info" th:text="수정"></span></a>
+                                <a th:href="@{'/order/delete/' + ${order.orderId}}"><span class="badge text-bg-danger" th:text="삭제"></span></a>
+                            </td>
+                        </tr>
+                    </div>
+                </table>
+
+                <div>&nbsp;</div>
+                <div><i>Sorted by [[${sortField}]] in[[${sortDir}]] order</i></div>
+            </div>
+        </div>
+    </main>
+
+    <div>
+        <footer class="pt-3 mt-4 border-top text-secondary">
+            <span class="text-body-secondary"> &copy; 2025 BookMarket</span>
+        </footer>
     </div>
-
-    <div class="row align-items-md-stretch">
-     <div class="text-end" style="padding-right: 30px" >
-       <form method="post" action="/BookMarket/logout">
-         <button type="submit" class="btn btn-sm btn-success">Logout</button>
-       </form>
-     </div>
-      <div class="col-md-12">
-        <form name="clear Form" method="post">
-          <input type="hidden"name="_method"value="delete">
-          <a th:href="@{/order/deleteAll}" class="btn bg-danger">삭제하기</a>
-        </form>
-      </div>
-      <div style="padding-top: 50px">
-      <div class="text-end"style="padding-right: 30px">
-        전체 주문수:[[${totalItems}]]
-      </div>
-      <table class="table table-hover">
-       <tr>
-        <th>주문Id</th>
-        <th>고객Id</th>
-        <th>배송지</th>
-        <th>총액</th>
-        <th>비고</th>
-        </tr>
-      </table>
-      </div>
-
-    </div>
-
-  </main>
-
-  <footer class="pt-3 mt-4 border-top text-secondary">
-    <span class="text-body-secondary"> &copy; 2025 BookMarket</span>
-  </footer>
 </div>
 </body>
 </html>
