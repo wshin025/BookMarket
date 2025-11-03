@@ -1,13 +1,52 @@
 package kr.ac.kopo.wsk.bookmarket.domain;
 
-import lombok.*;
+import lombok.Data;
+import lombok.ToString;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+import java.math.BigDecimal;
+
+@Data
+@ToString
 public class CartItem {
-    private Book book;
-    private int quantity;
+	
+	private Book book;
+	private int quantity;
+	private BigDecimal  totalPrice;
+	
+	
+	public CartItem(Book book) {
+		super();
+		this.book = book;
+		this.quantity = 1;
+		this.totalPrice = book.getUnitPrice();
+	}
+	
+	/*public CartItem() {
+	
+	}
+	
+		public Book getBook() {
+		return book;
+	}
+*/	
+	public void setBook(Book book) {
+		this.book = book;
+		this.updateTotalPrice();
+	}
+	
+/*	public int getQuantity() {
+		return quantity;
+	}
+*/
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+		this.updateTotalPrice();
+	}
 
-    public int getTotalPrice() {
-        return (book == null || book.getUnitPrice() == null) ? 0 : book.getUnitPrice() * quantity;
-    }
+
+
+	public void updateTotalPrice() {		
+		totalPrice =  this.book.getUnitPrice().multiply(new BigDecimal(this.quantity)); //단가 * 수량
+	}	
+	
 }

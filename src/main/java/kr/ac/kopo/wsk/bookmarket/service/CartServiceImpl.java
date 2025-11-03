@@ -1,38 +1,39 @@
 package kr.ac.kopo.wsk.bookmarket.service;
 
-import org.springframework.stereotype.Service;
 import kr.ac.kopo.wsk.bookmarket.domain.Cart;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.Map;
+import kr.ac.kopo.wsk.bookmarket.exception.CartException;
+import kr.ac.kopo.wsk.bookmarket.repository.CartRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
-public class CartServiceImpl implements CartService {
+public class CartServiceImpl implements CartService{
+	
+	@Autowired
+	private CartRepository cartRepository;
 
-    // 메모리 기반 장바구니 저장소
-    private final Map<String, Cart> cartStore = new ConcurrentHashMap<>();
+	public Cart create(Cart cart) {
+		return cartRepository.create(cart);
+	}
 
-    @Override
-    public Cart create(Cart cart) {
-        return null;
-    }
+	public Cart read(String cartId) {
+		return cartRepository.read(cartId);
+	}
+	
+	public void update(String cartId, Cart cart) {
+		cartRepository.update(cartId, cart);
+	}
 
-    @Override
-    public Cart read(String cartId) {
-        return cartStore.get(cartId);
-    }
+	public void delete(String cartId) {
+	      cartRepository.delete(cartId);
+	}
 
-    @Override
-    public void save(Cart cart) {
-        cartStore.put(cart.getCartId(), cart);
-    }
-
-    @Override
-    public void update(String cartId, Cart cart) {
-
-    }
-
-    @Override
-    public void delete(String cartId) {
-        cartStore.remove(cartId);
-    }
+	@Override
+	public Cart validateCart(String cartId) {
+		Cart cart = cartRepository.read(cartId);
+		if (cart == null || cart.getCartItems().size() == 0) {
+			throw new CartException(cartId);
+		}
+		return cart;
+	}
 }

@@ -1,17 +1,19 @@
 package kr.ac.kopo.wsk.bookmarket.domain;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.Data;
 
+import java.math.BigDecimal;
+
+@Data
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class OrderItem {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Book book;
-
+    private String bookId;
     private int quantity;
-    private int totalPrice;
+    private BigDecimal totalPrice;
 }

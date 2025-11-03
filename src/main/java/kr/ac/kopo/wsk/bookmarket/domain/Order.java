@@ -1,31 +1,31 @@
 package kr.ac.kopo.wsk.bookmarket.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
-@Entity @Table(name = "orders")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Data
+@Entity
+@Table(name = "orders")
 public class Order {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id
+    @GeneratedValue
+    private Long orderId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "shipping_id")
     private Shipping shipping;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> orderItems = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_order_id")
+    private Map<String, OrderItem> orderItems = new HashMap<String, OrderItem>();
 
-    private int grandTotal;
-
-    public void addItem(Book b, int qty) {
-        int price = (b.getUnitPrice() == null ? 0 : b.getUnitPrice()) * qty;
-        orderItems.add(OrderItem.builder().book(b).quantity(qty).totalPrice(price).build());
-        grandTotal += price;
-    }
+    private BigDecimal grandTotal;
 }

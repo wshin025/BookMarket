@@ -1,16 +1,19 @@
 package kr.ac.kopo.wsk.bookmarket.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
+@Data
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Customer {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String customerId;
     private String name;
     private String phone;
-
-    @Embedded
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id")
     private Address address;
+
 }

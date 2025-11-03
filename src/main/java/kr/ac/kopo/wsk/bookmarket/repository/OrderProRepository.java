@@ -1,4 +1,4 @@
-package kr.ac.kopo.wsk.bookmarket.service;
+package kr.ac.kopo.wsk.bookmarket.repository;
 
 import kr.ac.kopo.wsk.bookmarket.domain.Order;
 import org.springframework.data.jpa.repository.JpaRepository;

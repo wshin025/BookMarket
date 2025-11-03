@@ -3,11 +3,12 @@ package kr.ac.kopo.wsk.bookmarket.service;
 import kr.ac.kopo.wsk.bookmarket.domain.Cart;
 
 public interface CartService {
-    Cart create(Cart cart);
-    Cart read(String cartId);
-    void save(Cart cart);
-    void update(String cartId, Cart cart);
-    void delete(String cartId);
+	
+	Cart create(Cart cart);
+	
+	Cart read(String cartId);
+	
+	 void update(String cartId, Cart cart);
+	 void delete(String cartId);
+	 Cart validateCart(String cartId);
 }
-
-

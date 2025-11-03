@@ -1,13 +1,18 @@
 package kr.ac.kopo.wsk.bookmarket.domain;
 
-import jakarta.persistence.Embeddable;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.Data;
 
-@Embeddable
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Data
+@Entity
 public class Address {
-    private String country;
-    private String zipcode;
-    private String addressName;
-    private String detailName;
+    @Id
+    @GeneratedValue
+    private int id;
+    private String country; //국가명
+    private String zipcode; //우편번호
+    private String addressName; //기본주소
+    private String detailName; //상세주소
 }

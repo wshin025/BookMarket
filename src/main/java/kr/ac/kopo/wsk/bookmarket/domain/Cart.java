@@ -1,29 +1,75 @@
 package kr.ac.kopo.wsk.bookmarket.domain;
 
-import lombok.*;
+import lombok.Data;
+import lombok.ToString;
 
-import java.util.LinkedHashMap;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Map;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Data 
+@ToString
 public class Cart {
-    private String cartId;
-    private Map<Long, CartItem> cartItems = new LinkedHashMap<>();
+	
+	private String cartId;
+	private Map<String,CartItem> cartItems;
+	private BigDecimal grandTotal;
+	
+	
+	public Cart() {
+		cartItems = new HashMap<String, CartItem>();
+		grandTotal = new BigDecimal(0);
+	}
 
-    public int getGrandTotal() {
-        return cartItems.values().stream().mapToInt(CartItem::getTotalPrice).sum();
-    }
+	public Cart(String cartId) {
+		this();
+		this.cartId = cartId;
+	}
+/*
+	public String getCartId() {
+		return cartId;
+	}
 
-    public void addBook(Book book, int quantity) {
-        var item = cartItems.getOrDefault(book.getBookId(),
-                CartItem.builder().book(book).quantity(0).build());
-        item.setQuantity(item.getQuantity() + quantity);
-        cartItems.put(book.getBookId(), item);
-    }
+	public void setCartId(String cartId) {
+		this.cartId = cartId;
+	}
 
-    public void removeBook(Long bookId) {
-        cartItems.remove(bookId);
-    }
+	public Map<String, CartItem> getCartItems() {
+		return cartItems;
+	}
 
-    public void clear() { cartItems.clear(); }
+	public void setCartItems(Map<String, CartItem> cartItems) {
+		this.cartItems = cartItems;
+	}
+
+	public BigDecimal getGrandTotal() {
+		return grandTotal;
+	}
+	*/
+	
+	public void addCartItem(CartItem item) {
+	     String bookId = item.getBook().getBookId();
+
+		 if(cartItems.containsKey(bookId)) {
+			 CartItem cartItem = cartItems.get(bookId);
+			 cartItem.setQuantity(cartItem.getQuantity()+item.getQuantity());
+			 cartItems.put(bookId, cartItem);
+		 } else {
+			 cartItems.put(bookId, item);
+		 }
+		 updateGrandTotal();
+	}
+
+	public void removeCartItem(CartItem item) {
+		String bookId = item.getBook().getBookId();
+		cartItems.remove(bookId);
+		updateGrandTotal();
+	}
+
+	public void updateGrandTotal() {
+		grandTotal= new BigDecimal(0);
+		for(CartItem item : cartItems.values()){
+			grandTotal = grandTotal.add(item.getTotalPrice());
+		}
+	}
 }

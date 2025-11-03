@@ -1,7 +1,13 @@
 package kr.ac.kopo.wsk.bookmarket.exception;
 
 public class CartException extends RuntimeException {
-    public CartException(String message) {
-        super(message);
+    private String cartId;
+
+    public CartException(String cartId) {
+        this.cartId = cartId;
+    }
+
+    public String getCartId() {
+        return cartId;
     }
 }
