@@ -2,6 +2,7 @@ package kr.ac.kopo.wsk.bookmarket.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
@@ -9,8 +10,8 @@ import lombok.Data;
 @Entity
 public class Address {
     @Id
-    @GeneratedValue
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String country; //국가명
     private String zipcode; //우편번호
     private String addressName; //기본주소

@@ -61,7 +61,9 @@ public class OrderController {
         }
 
         order.setCustomer(new Customer());
+        order.getCustomer().setAddress(new Address());
         order.setShipping(new Shipping());
+        order.getShipping().setAddress(new Address());
         order.setGrandTotal(cart.getGrandTotal());
 
         return "redirect:/order/orderCustomerInfo";
@@ -78,6 +80,10 @@ public class OrderController {
     @PostMapping("/orderCustomerInfo")
     public String requestCustomerInfo(@ModelAttribute Customer customer, Model model) {
 
+        if (customer.getAddress() == null) {
+            customer.setAddress(new Address());
+        }
+
         order.setCustomer(customer);
         return "redirect:/order/orderShippingInfo";
     }
@@ -85,6 +91,10 @@ public class OrderController {
 
     @GetMapping("/orderShippingInfo")
     public String requestShippingInfoForm(Model model) {
+        if (order.getShipping().getAddress() == null) {
+            order.getShipping().setAddress(new Address());
+        }
+
         model.addAttribute("shipping", order.getShipping());
         return "orderShippingInfo";
     }
